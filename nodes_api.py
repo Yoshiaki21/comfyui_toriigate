@@ -280,15 +280,10 @@ class LlamaCppVisionGenerate:
                         ),
                     },
                 ),
-                "prompt": (
-                    "STRING",
-                    {
-                        "multiline": True,
-                        "default": "",
-                        "tooltip": "Optional prompt. You can connect the text output from the ToriiGate Grounding Builder here, or type your own.",
-                        "forceInput": True,
-                    },
-                ),
+                # ★修正: prompt（forceInput）をここに置いていた。
+                # forceInput項目より後ろのウィジェットはComfyUIコア側の既知の不具合で
+                # widgets_values復元時に1個ずつズレることがあるため、他のウィジェットより
+                # 前に置いてはいけない。定義は optional の最後尾（このメソッドの末尾）に移動した。
                 "max_pixels_mp": (
                     "FLOAT",
                     {
@@ -332,6 +327,18 @@ class LlamaCppVisionGenerate:
                         "min": 0,
                         "max": 0xFFFFFFFFFFFFFFFF,
                         "tooltip": "Seed for reproducibility. Use 0 for a random seed.",
+                    },
+                ),
+                # ★修正: forceInput の prompt は optional の最後尾に配置する。
+                # これより後ろに新しいウィジェットを追加しない限り、
+                # インデックスシフトの影響を受けなくなる。
+                "prompt": (
+                    "STRING",
+                    {
+                        "multiline": True,
+                        "default": "",
+                        "tooltip": "Optional prompt. You can connect the text output from the ToriiGate Grounding Builder here, or type your own.",
+                        "forceInput": True,
                     },
                 ),
             },
